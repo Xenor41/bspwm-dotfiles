@@ -1,0 +1,149 @@
+#
+# wm independent hotkeys
+#
+
+# terminal emulator
+super + Return
+	alacritty
+
+# program launcher
+super + @space
+	rofi -show drun
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+#
+# bspwm hotkeys
+#
+
+#Apps
+
+super + f
+	firefox-developer-edition
+super -e
+	dolphin
+super - r
+	ranger
+super + d
+	discord
+super + p
+	cmus
+super + s
+	spotify
+super + c
+	code
+super + n
+	nvim	
+
+
+# quit/restart bspwm
+super + alt + r
+	bspc wm -r 
+
+
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+super + q
+    bspc node -c
+
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+# focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d } '^{1-9,10}'
+
+#
+# preselect
+#
+
+# preselect the direction
+super + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+super + ctrl + shift + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#
+# move/resize
+#
+
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# Play music
+XF86AudioPlay 
+        playerctl play
+
+# Pause music
+XF86AudioPause
+	playerctl pause
+
+# Music next
+XF86AudioNext
+	playerctl next
+
+# Music previous
+XF86AudioPrev
+	playerctl previous
+
+
+
+# Screenshot Full
+Print
+	$HOME/.scripts/screenshot --full-cb
+
+# Switch windows
+alt + Tab
+    bash ~/.config/rofi/window-switcher/window-switcher.sh
+# Volume Up
+XF86AudioRaiseVolume
+  amixer sset Master 5%+ && $HOME/.config/eww/Misc/scripts/volume
+
+# Volume Down
+XF86AudioLowerVolume
+  amixer sset Master 5%- && $HOME/.config/eww/Misc/scripts/volume
+
+# Volume Mute
+XF86AudioMute
+  amixer sset Master toggle && $HOME/.config/eww/Misc/scripts/volume
+
+# Brightness Up
+XF86MonBrightnessUp
+  brightnessctl s 20+ && $HOME/.config/eww/Misc/scripts/brightness
+
+# Brightness Down
+XF86MonBrightnessDown
+  brightnessctl s 20- && $HOME/.config/eww/Misc/scripts/brightness
+
+# Toggle right click context menu.
+~button3
+	  xqp 0 $(xdo id -N Bspwm -n root) && jgmenu_run 
