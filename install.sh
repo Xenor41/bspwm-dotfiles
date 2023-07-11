@@ -79,7 +79,7 @@ clear
 
 read -n1 -rep 'Start BSPWM? (y,n)' bspwm
 if [[ $bspwm == "Y" || $bspwm == "y" ]]; then
-    exec Hyprland
+    exec startx
 else
     exit
 fi
